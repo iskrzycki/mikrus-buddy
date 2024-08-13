@@ -2,57 +2,89 @@ import { getServerInfo } from "@/utils";
 import { useState, useEffect } from "react";
 import { browser } from "wxt/browser";
 import ServerInfo from "./ServerInfo";
+import "./App.css";
 
 function App() {
-  const [apiKey, setApiKey] = useState("");
-  const [serverId, setServerId] = useState("");
+  const [formData, setFormData] = useState({ apiKey: "", serverId: "" });
+  const [formMode, setFormMode] = useState<"INFO" | "LOGIN">("LOGIN");
   const [mikrusInfo, setMikrusInfo] = useState(null);
 
-  const handleApiKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setApiKey(event.target.value);
-    browser.storage.sync.set({ apiKey: event.target.value });
-  };
-  const handleServerIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setServerId(event.target.value);
-    browser.storage.sync.set({ serverId: event.target.value });
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    browser.storage.sync.set({ [name]: value });
   };
 
   useEffect(() => {
     browser.storage.sync.get(["apiKey", "serverId"]).then((result) => {
-      setApiKey(result.apiKey || "");
-      setServerId(result.serverId || "");
+      setFormData({
+        apiKey: result.apiKey || "",
+        serverId: result.serverId || "",
+      });
     });
   }, []);
 
   const handleSendRequest = async () => {
     try {
-      const info = await getServerInfo(apiKey, serverId);
+      const info = await getServerInfo(formData.apiKey, formData.serverId);
       setMikrusInfo(info);
+      setFormMode("INFO");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const handleLogout = async () => {
+    browser.storage.sync.set({ apiKey: undefined, serverId: undefined });
+    setFormData({
+      apiKey: "",
+      serverId: "",
+    });
+    setFormMode("LOGIN");
+  };
+
   return (
-    <div className="card">
-      <input
-        type="text"
-        value={apiKey}
-        onChange={handleApiKeyChange}
-        placeholder="Enter your mikr.us API key"
-      />
-      <input
-        type="text"
-        value={serverId}
-        onChange={handleServerIdChange}
-        placeholder="Enter your server ID"
-      />
-      <button onClick={handleSendRequest} disabled={!apiKey || !serverId}>
-        Send Request
-      </button>
-      {mikrusInfo && <ServerInfo responseData={mikrusInfo} />}
-    </div>
+    <>
+      <div className="card">
+        {formMode === "LOGIN" && (
+          <div>
+            <input
+              type="text"
+              name="apiKey"
+              value={formData.apiKey}
+              onChange={handleInputChange}
+              placeholder="Enter your mikr.us API key"
+            />
+            <input
+              type="text"
+              name="serverId"
+              value={formData.serverId}
+              onChange={handleInputChange}
+              placeholder="Enter your server ID"
+            />
+            <button
+              onClick={handleSendRequest}
+              disabled={!formData.apiKey || !formData.serverId}
+            >
+              Save data
+            </button>
+          </div>
+        )}
+        {formMode === "INFO" && <button onClick={handleLogout}>Logout</button>}
+      </div>
+      {formMode === "INFO" && (
+        <div className="card">
+          {mikrusInfo && <ServerInfo responseData={mikrusInfo} />}
+        </div>
+      )}
+    </>
   );
 }
 
 export default App;
+
+// TODO fix uptime parsing
+// TODO memory chart
