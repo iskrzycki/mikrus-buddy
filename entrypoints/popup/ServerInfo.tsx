@@ -10,11 +10,13 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
       <p>
         <strong>Server id:</strong> {responseData.server_id}
       </p>
+      {responseData.server_name && (
+        <p>
+          <strong>Server name:</strong> {responseData.server_name}
+        </p>
+      )}
       <p>
-        <strong>Server name:</strong>{" "}
-        {responseData.server_name !== null ? responseData.server_name : "null"}
-      </p>
-      <p>
+        {/* // TODO date formatting */}
         <strong>Expires:</strong> {responseData.expires}
       </p>
       <p>

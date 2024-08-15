@@ -7,10 +7,16 @@ const fetchMikrusAPI = async (
   formData.append("key", apiKey);
   formData.append("srv", serverId);
 
-  return fetch(`https://api.mikr.us/${endpoint}`, {
+  const response = await fetch(`https://api.mikr.us/${endpoint}`, {
     method: "POST",
     body: formData,
-  }).then((response) => response.json());
+  });
+
+  if (response.status === 429) {
+    throw new Error("Too Many Requests");
+  }
+
+  return response.json();
 };
 
 export const getServerInfo = async (apiKey: string, serverId: string) => {
@@ -25,16 +31,18 @@ export const getServerInfo = async (apiKey: string, serverId: string) => {
     memory: parseMemoryStats(stats.free),
   };
 };
-
+// 16:27:02 up 3 days, 22:15, 0 users, load average: 0.08, 0.10, 0.04 sh: 1: echo
 const extractUptime = (uptimeString: string) => {
-  const uptimeRegex = /up\s+([^,]*)/;
+  // Regular expression to match uptime with or without days
+  const uptimeRegex = /up\s+((\d+\s+days?,\s+)?\d+:\d+)/;
   const match = uptimeRegex.exec(uptimeString);
 
   if (!match) {
-    throw new Error("Invalid uptime string format");
+    return "invalid uptime";
   }
 
-  return match[1].trim();
+  const uptime = match[1].trim();
+  return uptime;
 };
 
 const parseMemoryStats = (memoryString: string) => {
@@ -45,7 +53,7 @@ const parseMemoryStats = (memoryString: string) => {
   const swapMatch = swapRegex.exec(memoryString);
 
   if (!memoryMatch || !swapMatch) {
-    throw new Error("Invalid memory string format: " + memoryString);
+    return "invalid memory stats";
   }
 
   const memoryStats = {

@@ -19,11 +19,21 @@ function App() {
   };
 
   useEffect(() => {
-    browser.storage.sync.get(["apiKey", "serverId"]).then((result) => {
+    browser.storage.sync.get(["apiKey", "serverId"]).then(async (result) => {
       setFormData({
         apiKey: result.apiKey || "",
         serverId: result.serverId || "",
       });
+      if (result.apiKey && result.serverId) {
+        try {
+          const info = await getServerInfo(result.apiKey, result.serverId);
+          setMikrusInfo(info);
+          setFormMode("INFO");
+        } catch (error) {
+          alert(error);
+          console.error("Error fetching data:", error);
+        }
+      }
     });
   }, []);
 
@@ -33,6 +43,8 @@ function App() {
       setMikrusInfo(info);
       setFormMode("INFO");
     } catch (error) {
+      alert("Error fetching data");
+      alert(error);
       console.error("Error fetching data:", error);
     }
   };
@@ -77,6 +89,7 @@ function App() {
       </div>
       {formMode === "INFO" && (
         <div className="card">
+          <button onClick={handleSendRequest}>Refresh</button>
           {mikrusInfo && <ServerInfo responseData={mikrusInfo} />}
         </div>
       )}
