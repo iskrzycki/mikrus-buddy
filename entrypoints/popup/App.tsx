@@ -1,34 +1,21 @@
-import { getServerInfo } from "@/utils";
+import { Button, Paper, Tabs } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { browser } from "wxt/browser";
 import ServerInfo from "./ServerInfo";
+import Settings from "./Settings";
+import { getServerInfo } from "@/utils";
 import "./App.css";
 
 function App() {
-  const [formData, setFormData] = useState({ apiKey: "", serverId: "" });
-  const [formMode, setFormMode] = useState<"INFO" | "LOGIN">("LOGIN");
+  const [activeTab, setActiveTab] = useState<string | null>("settings");
   const [mikrusInfo, setMikrusInfo] = useState(null);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-    browser.storage.sync.set({ [name]: value });
-  };
 
   useEffect(() => {
     browser.storage.sync.get(["apiKey", "serverId"]).then(async (result) => {
-      setFormData({
-        apiKey: result.apiKey || "",
-        serverId: result.serverId || "",
-      });
       if (result.apiKey && result.serverId) {
         try {
           const info = await getServerInfo(result.apiKey, result.serverId);
           setMikrusInfo(info);
-          setFormMode("INFO");
         } catch (error) {
           alert(error);
           console.error("Error fetching data:", error);
@@ -39,9 +26,12 @@ function App() {
 
   const handleSendRequest = async () => {
     try {
-      const info = await getServerInfo(formData.apiKey, formData.serverId);
+      const { apiKey, serverId } = await browser.storage.sync.get([
+        "apiKey",
+        "serverId",
+      ]);
+      const info = await getServerInfo(apiKey, serverId);
       setMikrusInfo(info);
-      setFormMode("INFO");
     } catch (error) {
       alert("Error fetching data");
       alert(error);
@@ -49,55 +39,33 @@ function App() {
     }
   };
 
-  const handleLogout = async () => {
-    browser.storage.sync.set({ apiKey: undefined, serverId: undefined });
-    setFormData({
-      apiKey: "",
-      serverId: "",
-    });
-    setFormMode("LOGIN");
-  };
-
   return (
-    <>
-      <div className="card">
-        {formMode === "LOGIN" && (
-          <div>
-            <input
-              type="text"
-              name="apiKey"
-              value={formData.apiKey}
-              onChange={handleInputChange}
-              placeholder="Enter your mikr.us API key"
-            />
-            <input
-              type="text"
-              name="serverId"
-              value={formData.serverId}
-              onChange={handleInputChange}
-              placeholder="Enter your server ID"
-            />
-            <button
-              onClick={handleSendRequest}
-              disabled={!formData.apiKey || !formData.serverId}
-            >
-              Save data
-            </button>
-          </div>
-        )}
-        {formMode === "INFO" && <button onClick={handleLogout}>Logout</button>}
-      </div>
-      {formMode === "INFO" && (
-        <div className="card">
-          <button onClick={handleSendRequest}>Refresh</button>
+    <Tabs value={activeTab} onChange={setActiveTab}>
+      <Tabs.List>
+        <Tabs.Tab value="info">Server info</Tabs.Tab>
+        <Tabs.Tab value="cmd">CMD</Tabs.Tab>
+        <Tabs.Tab value="settings">Settings</Tabs.Tab>
+      </Tabs.List>
+
+      <Tabs.Panel value="info">
+        <Paper shadow="md" radius="md" w={400}>
+          <Button onClick={handleSendRequest}>Refresh</Button>
           {mikrusInfo && <ServerInfo responseData={mikrusInfo} />}
-        </div>
-      )}
-    </>
+        </Paper>
+      </Tabs.Panel>
+      <Tabs.Panel value="cmd">
+        <Paper shadow="md" radius="md" w={400}>
+          <p>CMD list</p>
+        </Paper>
+      </Tabs.Panel>
+      <Tabs.Panel value="settings">
+        <Settings />
+      </Tabs.Panel>
+    </Tabs>
   );
 }
 
 export default App;
 
 // TODO fix uptime parsing
-// TODO memory chart
+// TODO memory chart -> use RingProgress
