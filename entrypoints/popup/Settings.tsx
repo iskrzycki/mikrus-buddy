@@ -28,7 +28,7 @@ function Settings() {
 
   const onSubmit = async (values: Record<string, any>) => {
     // TODO make api call to verify the api key and server id
-    // TODO set store value to control tabs
+    // TODO set isValidKey value to control tabs
     browser.storage.sync.set(values);
   };
 

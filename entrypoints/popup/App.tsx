@@ -1,14 +1,24 @@
 import { Button, Paper, Tabs } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { browser } from "wxt/browser";
-import ServerInfo from "./ServerInfo";
+import ServerInfoPanel from "./ServerInfoPanel";
 import Settings from "./Settings";
-import { getServerInfo } from "@/utils";
+import { getServerInfo, ServerInfo } from "@/utils";
 import "./App.css";
 
 function App() {
   const [activeTab, setActiveTab] = useState<string | null>("settings");
-  const [mikrusInfo, setMikrusInfo] = useState(null);
+  const [isValidKey, setIsValidKey] = useState<boolean>(false);
+  const [mikrusInfo, setMikrusInfo] = useState<ServerInfo | null>(null);
+
+  browser.storage.onChanged.addListener((changes) => {
+    setIsValidKey(changes.isValidKey.newValue);
+    if (changes.isValidKey.newValue) {
+      setActiveTab("info");
+    } else {
+      setActiveTab("settings");
+    }
+  });
 
   useEffect(() => {
     browser.storage.sync.get(["apiKey", "serverId"]).then(async (result) => {
@@ -42,15 +52,18 @@ function App() {
   return (
     <Tabs value={activeTab} onChange={setActiveTab}>
       <Tabs.List>
-        <Tabs.Tab value="info">Server info</Tabs.Tab>
-        <Tabs.Tab value="cmd">CMD</Tabs.Tab>
+        <Tabs.Tab value="info" disabled={!isValidKey}>
+          Server info
+        </Tabs.Tab>
+        <Tabs.Tab value="cmd" disabled={!isValidKey}>
+          CMD
+        </Tabs.Tab>
         <Tabs.Tab value="settings">Settings</Tabs.Tab>
       </Tabs.List>
-
       <Tabs.Panel value="info">
         <Paper shadow="md" radius="md" w={400}>
           <Button onClick={handleSendRequest}>Refresh</Button>
-          {mikrusInfo && <ServerInfo responseData={mikrusInfo} />}
+          {mikrusInfo && <ServerInfoPanel responseData={mikrusInfo} />}
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
