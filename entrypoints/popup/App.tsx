@@ -1,78 +1,57 @@
-import { Button, Paper, Tabs } from "@mantine/core";
-import { useState, useEffect } from "react";
+import { Button, Loader, Paper, Tabs } from "@mantine/core";
 import { browser } from "wxt/browser";
 import ServerInfoPanel from "./ServerInfoPanel";
 import Settings from "./Settings";
-import { getServerInfo, ServerInfo } from "@/utils";
+import { getServerInfo } from "@/utils";
 import "./App.css";
+import { useQuery, useQueryClient } from "react-query";
+import useStore from "./store";
+
+const tempInfo = async () => {
+  const { apiKey, serverId } = await browser.storage.sync.get([
+    "apiKey",
+    "serverId",
+  ]);
+  if (apiKey && serverId) {
+    return await getServerInfo(apiKey, serverId);
+  }
+};
 
 function App() {
-  const [activeTab, setActiveTab] = useState<string | null>("settings");
-  const [isValidKey, setIsValidKey] = useState<boolean>(false);
-  const [mikrusInfo, setMikrusInfo] = useState<ServerInfo | null>(null);
-
-  browser.storage.onChanged.addListener((changes) => {
-    setIsValidKey(changes.isValidKey.newValue);
-    if (changes.isValidKey.newValue) {
-      setActiveTab("info");
-    } else {
-      setActiveTab("settings");
-    }
+  const { isValidKey, activeTab, setActiveTab } = useStore();
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["info"],
+    queryFn: tempInfo,
+    refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    browser.storage.sync.get(["apiKey", "serverId"]).then(async (result) => {
-      if (result.apiKey && result.serverId) {
-        try {
-          const info = await getServerInfo(result.apiKey, result.serverId);
-          setMikrusInfo(info);
-        } catch (error) {
-          alert(error);
-          console.error("Error fetching data:", error);
-        }
-      }
-    });
-  }, []);
-
-  const handleSendRequest = async () => {
-    try {
-      const { apiKey, serverId } = await browser.storage.sync.get([
-        "apiKey",
-        "serverId",
-      ]);
-      const info = await getServerInfo(apiKey, serverId);
-      setMikrusInfo(info);
-    } catch (error) {
-      alert("Error fetching data");
-      alert(error);
-      console.error("Error fetching data:", error);
-    }
-  };
-
   return (
-    <Tabs value={activeTab} onChange={setActiveTab}>
+    <Tabs value={activeTab} onChange={(tab) => setActiveTab(tab!)}>
       <Tabs.List>
-        <Tabs.Tab value="info" disabled={!isValidKey}>
-          Server info
-        </Tabs.Tab>
-        <Tabs.Tab value="cmd" disabled={!isValidKey}>
-          CMD
-        </Tabs.Tab>
+        <Tabs.Tab value="info">Server info</Tabs.Tab>
+        <Tabs.Tab value="cmd">CMD</Tabs.Tab>
         <Tabs.Tab value="settings">Settings</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
-        <Paper shadow="md" radius="md" w={400}>
-          <Button onClick={handleSendRequest}>Refresh</Button>
-          {mikrusInfo && <ServerInfoPanel responseData={mikrusInfo} />}
+        <Paper shadow="md" radius="md" w={400} p={20}>
+          <Button
+            onClick={async () => await queryClient.invalidateQueries("info")}
+          >
+            Refresh
+          </Button>
+          {data ? <ServerInfoPanel responseData={data} /> : null}
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
-        <Paper shadow="md" radius="md" w={400}>
+        <Paper shadow="md" radius="md" w={400} p={20}>
           <p>CMD list</p>
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="settings">
-        <Settings />
+        <Paper shadow="md" radius="md" w={400} p={20}>
+          <Settings />
+        </Paper>
       </Tabs.Panel>
     </Tabs>
   );

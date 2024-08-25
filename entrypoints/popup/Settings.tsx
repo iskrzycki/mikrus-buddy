@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
-import { TextInput, Button, PasswordInput } from "@mantine/core";
+import { TextInput, Button, PasswordInput, Group } from "@mantine/core";
+import useStore from "./store";
 
 function Settings() {
+const { setIsValidKey, setActiveTab } = useStore();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { apiKey: "", serverId: "" },
@@ -30,6 +33,7 @@ function Settings() {
     // TODO make api call to verify the api key and server id
     // TODO set isValidKey value to control tabs
     browser.storage.sync.set(values);
+    setIsValidKey(true); // TODO verify this first
   };
 
   const onLogout = () => {
@@ -38,8 +42,7 @@ function Settings() {
   };
 
   return (
-    <>
-      <form onSubmit={form.onSubmit(onSubmit)}>
+          <form onSubmit={form.onSubmit(onSubmit)}>
         <PasswordInput
           label="API key"
           placeholder="API key"
@@ -53,11 +56,12 @@ function Settings() {
           key={form.key("serverId")}
           {...form.getInputProps("serverId")}
         />
+<Group justify="center" mt="xl">
         <Button type="submit">Submit</Button>
+<Button onClick={onLogout}>Logout</Button>
+      </Group>
       </form>
-      <Button onClick={onLogout}>Logout</Button>
-    </>
-  );
+        );
 }
 
 export default Settings;
