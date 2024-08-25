@@ -6,6 +6,7 @@ import { getServerInfo } from "@/utils";
 import "./App.css";
 import { useQuery, useQueryClient } from "react-query";
 import useStore from "./store";
+import { IconRefresh } from "@tabler/icons-react";
 
 const tempInfo = async () => {
   const { apiKey, serverId } = await browser.storage.sync.get([
@@ -38,7 +39,7 @@ function App() {
           <Button
             onClick={async () => await queryClient.invalidateQueries("info")}
           >
-            Refresh
+            <IconRefresh />
           </Button>
           {data ? <ServerInfoPanel responseData={data} /> : null}
         </Paper>
