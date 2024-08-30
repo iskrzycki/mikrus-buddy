@@ -21,6 +21,12 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
         <strong>Expires:</strong> {responseData.expires.split(" ")[0]}
       </p>
       <p>
+        <strong>Expires storage</strong>
+        {responseData.expires_storage
+          ? responseData.expires_storage.split(" ")[0]
+          : "no storage"}
+      </p>
+      <p>
         <strong>RAM:</strong> {responseData.param_ram} MB (
         {responseData.memory && responseData.memory.available} MB available)
       </p>

@@ -29,7 +29,7 @@ export interface ServerInfo {
   disk: DiskStats | null;
 }
 
-const fetchMikrusAPI = async (
+export const fetchMikrusAPI = async (
   apiKey: string,
   serverId: string,
   endpoint: string

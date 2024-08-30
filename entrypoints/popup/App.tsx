@@ -30,12 +30,16 @@ function App() {
   return (
     <Tabs value={activeTab} onChange={(tab) => setActiveTab(tab!)}>
       <Tabs.List>
-        <Tabs.Tab value="info">Server info</Tabs.Tab>
-        <Tabs.Tab value="cmd">CMD</Tabs.Tab>
+        <Tabs.Tab value="info" disabled={!isValidKey}>
+          Server info
+        </Tabs.Tab>
+        <Tabs.Tab value="cmd" disabled={!isValidKey}>
+          CMD
+        </Tabs.Tab>
         <Tabs.Tab value="settings">Settings</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
-        <Paper shadow="md" radius="md" w={400} p={20}>
+        <Paper shadow="md" radius="md" w={420} p={20}>
           <Button
             onClick={async () => await queryClient.invalidateQueries("info")}
           >
@@ -45,12 +49,12 @@ function App() {
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
-        <Paper shadow="md" radius="md" w={400} p={20}>
+        <Paper shadow="md" radius="md" w={420} p={20}>
           <p>CMD list</p>
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="settings">
-        <Paper shadow="md" radius="md" w={400} p={20}>
+        <Paper shadow="md" radius="md" w={420} p={20}>
           <Settings />
         </Paper>
       </Tabs.Panel>
