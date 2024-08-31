@@ -1,12 +1,12 @@
-import { Button, Loader, Paper, Tabs } from "@mantine/core";
+import { Paper, Tabs } from "@mantine/core";
 import { browser } from "wxt/browser";
-import ServerInfoPanel from "./ServerInfoPanel";
 import Settings from "./Settings";
 import { getServerInfo } from "@/utils";
 import "./App.css";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import useStore from "./store";
-import { IconRefresh } from "@tabler/icons-react";
+import CMD from "./cmd";
+import ServerInfo from "./ServerInfo";
 
 const tempInfo = async () => {
   const { apiKey, serverId } = await browser.storage.sync.get([
@@ -20,7 +20,6 @@ const tempInfo = async () => {
 
 function App() {
   const { isValidKey, activeTab, setActiveTab } = useStore();
-  const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: ["info"],
     queryFn: tempInfo,
@@ -40,17 +39,12 @@ function App() {
       </Tabs.List>
       <Tabs.Panel value="info">
         <Paper shadow="md" radius="md" w={420} p={20}>
-          <Button
-            onClick={async () => await queryClient.invalidateQueries("info")}
-          >
-            <IconRefresh />
-          </Button>
-          {data ? <ServerInfoPanel responseData={data} /> : null}
+          {data ? <ServerInfo responseData={data} /> : null}
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
         <Paper shadow="md" radius="md" w={420} p={20}>
-          <p>CMD list</p>
+          <CMD />
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="settings">

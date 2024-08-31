@@ -1,9 +1,9 @@
-import { ServerInfo } from "@/utils";
+import { ServerData } from "@/utils";
 import { Grid, RingProgress, Text } from "@mantine/core";
 import React from "react";
 
 interface ServerInfoPanelProps {
-  responseData: ServerInfo;
+  responseData: ServerData;
 }
 
 const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
@@ -21,7 +21,7 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
         <strong>Expires:</strong> {responseData.expires.split(" ")[0]}
       </p>
       <p>
-        <strong>Expires storage</strong>
+        <strong>Expires storage: </strong>
         {responseData.expires_storage
           ? responseData.expires_storage.split(" ")[0]
           : "no storage"}

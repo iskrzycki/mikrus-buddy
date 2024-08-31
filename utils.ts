@@ -16,7 +16,7 @@ interface MemoryStats {
   swapFree: number;
 }
 
-export interface ServerInfo {
+export interface ServerData {
   server_id: string;
   server_name?: string;
   expires: string;
@@ -37,6 +37,9 @@ export const fetchMikrusAPI = async (
   const formData = new FormData();
   formData.append("key", apiKey);
   formData.append("srv", serverId);
+  console.log(
+    `fetching https://api.mikr.us/${endpoint}. Key: ${apiKey}, srv: ${serverId}`
+  );
 
   const response = await fetch(`https://api.mikr.us/${endpoint}`, {
     method: "POST",
@@ -53,7 +56,7 @@ export const fetchMikrusAPI = async (
 export const getServerInfo = async (
   apiKey: string,
   serverId: string
-): Promise<ServerInfo> => {
+): Promise<ServerData> => {
   const [info, stats] = await Promise.all([
     fetchMikrusAPI(apiKey, serverId, "info"),
     fetchMikrusAPI(apiKey, serverId, "stats"),
