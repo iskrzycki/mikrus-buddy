@@ -70,7 +70,7 @@ export const getServerInfo = async (
   };
 };
 // 16:27:02 up 3 days, 22:15, 0 users, load average: 0.08, 0.10, 0.04 sh: 1: echo
-const extractUptime = (uptimeString: string): string => {
+export const extractUptime = (uptimeString: string): string => {
   // Regular expression to match uptime with or without days
   const uptimeRegex = /up\s+((\d+\s+days?,\s+)?\d+:\d+)/;
   const match = uptimeRegex.exec(uptimeString);
@@ -83,7 +83,7 @@ const extractUptime = (uptimeString: string): string => {
   return uptime;
 };
 
-const parseMemoryStats = (memoryString: string): MemoryStats | null => {
+export const parseMemoryStats = (memoryString: string): MemoryStats | null => {
   const memoryRegex = /Mem:\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/;
   const swapRegex = /Swap:\s+(\d+)\s+(\d+)\s+(\d+)/;
 
@@ -111,7 +111,7 @@ const parseMemoryStats = (memoryString: string): MemoryStats | null => {
 
 // TODO tests
 // "Filesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--630--disk--0   15G  9.2G  4.8G  66% /"
-const parseDfString = (dfString: string): DiskStats | null => {
+export const parseDfString = (dfString: string): DiskStats | null => {
   const dfRegex = /\/dev\/mapper\/[^\s]+\s+(\d+)G\s+(\d+\.\d+)G\s+(\d+\.\d+)G/;
   const match = dfString.match(dfRegex);
 

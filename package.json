@@ -12,7 +12,8 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "test": "vitest"
   },
   "dependencies": {
     "@mantine/core": "^7.12.1",
@@ -32,6 +33,7 @@
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
     "wxt": "^0.19.1"
   }
 }

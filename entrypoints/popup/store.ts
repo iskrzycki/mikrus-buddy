@@ -9,7 +9,7 @@ interface AppState {
 }
 
 console.log("store.ts");
-// TODO getting false there, but key and serverId already exists in store and seem sto be valid.
+// TODO getting false there, but key and serverId already exists in store and seems to be valid.
 const userData = await browser.storage.sync.get(["isValidKey"]);
 console.log("userdata", userData);
 
