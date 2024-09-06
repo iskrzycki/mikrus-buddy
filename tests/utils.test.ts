@@ -1,9 +1,8 @@
 import { expect, test } from "vitest";
 import { extractUptime, parseDfString, parseMemoryStats } from "../utils";
 
-// uptime: extractUptime(stats.uptime),
-// memory: parseMemoryStats(stats.free),
-// disk: parseDfString(stats.df),
+ 
+// TODO tests for this df:  // "Filesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--630--disk--0   15G  9.2G  4.8G  66% /"
 
 const serverStats = {
   free: "total        used        free      shared  buff/cache   available\nMem:            1280        1025           5          16         249         254\nSwap:              0           0           0",
@@ -31,9 +30,24 @@ test("parseMemoryStats", () => {
 });
 
 test("parseDfString", () => {
-  expect(parseDfString(serverStats.df)).toEqual({
-    avail: 848,
-    size: 15,
-    used: 14,
-  });
+  expect(parseDfString(serverStats.df)).toEqual([
+    {
+      available: "848M",
+      filesystem: "/dev/mapper/pve-vm--630--disk--0",
+      mountedOn: "/",
+      size: "15G",
+      usePercent: "95%",
+      used: "14G",
+      reserved: "0",
+    },
+    {
+      available: "117G",
+      filesystem: "/dev/mapper/storage01--vg--srv07-vm--630--disk--0",
+      mountedOn: "/storage",
+      size: "123G",
+      usePercent: "1%",
+      used: "259M",
+      reserved: "0",
+    },
+  ]);
 });

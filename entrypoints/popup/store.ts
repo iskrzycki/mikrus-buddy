@@ -13,17 +13,16 @@ console.log("store.ts");
 const userData = await browser.storage.sync.get(["isValidKey"]);
 console.log("userdata", userData);
 
-const initialState = {
-  isValidKey: false,
-  activeTab: "settings",
-};
-
 const useStore = create<AppState>((set) => ({
   isValidKey: userData.isValidKey || false,
   activeTab: userData.isValidKey ? "info" : "settings",
   setIsValidKey: (isValidKey) => set({ isValidKey }),
   setActiveTab: (activeTab) => set({ activeTab }),
-  reset: () => set(initialState),
+  reset: () =>
+    set({
+      isValidKey: false,
+      activeTab: "settings",
+    }),
 }));
 
 export default useStore;

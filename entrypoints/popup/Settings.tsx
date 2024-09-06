@@ -12,7 +12,10 @@ function Settings() {
 
   const form = useForm({
     mode: "uncontrolled",
-    initialValues: { apiKey: "", serverId: "" },
+    initialValues: {
+apiKey: "",
+serverId: "",
+},
     validate: {
       apiKey: (value) =>
         value.trim().length !== 40 ? "API key must have 40 letters" : null,

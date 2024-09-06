@@ -1,9 +1,14 @@
+// TODO consider to switch to number instead of string
 interface DiskStats {
-  total: number;
-  used: number;
-  available: number;
-  reserved: number;
+  size: string;
+  usePercent: string;
+  used: string;
+  available: string;
+  mountedOn: string;
+  filesystem: string;
+  reserved: string;
 }
+
 interface MemoryStats {
   total: number;
   used: number;
@@ -26,7 +31,7 @@ export interface ServerData {
   expires_storage: string;
   lastlog_panel: string;
   memory: MemoryStats | null;
-  disk: DiskStats | null;
+  disk: DiskStats[] | null;
 }
 
 export const fetchMikrusAPI = async (
@@ -109,21 +114,29 @@ export const parseMemoryStats = (memoryString: string): MemoryStats | null => {
   return memoryStats;
 };
 
-// TODO tests
-// "Filesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--630--disk--0   15G  9.2G  4.8G  66% /"
-export const parseDfString = (dfString: string): DiskStats | null => {
-  const dfRegex = /\/dev\/mapper\/[^\s]+\s+(\d+)G\s+(\d+\.\d+)G\s+(\d+\.\d+)G/;
-  const match = dfString.match(dfRegex);
+export const parseDfString = (dfOutput: string): DiskStats[] => {
+  const dfRegex = /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+  const lines = dfOutput.split("\n");
+  const storageArray = [];
 
-  if (!match) {
-    return null;
+  // Skipping the first line (header)
+  for (let i = 1; i < lines.length; i++) {
+    const match = dfRegex.exec(lines[i]);
+    if (match) {
+      const [_, filesystem, size, used, available, usePercent, mountedOn] =
+        match;
+      // TODO: Calculate this (M or G)
+      storageArray.push({
+        filesystem,
+        size,
+        used,
+        available,
+        usePercent,
+        mountedOn,
+        reserved: "0", // (total - used - available)
+      });
+    }
   }
 
-  const total = parseFloat(match[1]);
-  const used = parseFloat(match[2]);
-  const available = parseFloat(match[3]);
-  // TODO consider better rounding
-  const reserved = Math.round(total - used - available);
-
-  return { total, used, available, reserved };
+  return storageArray;
 };
