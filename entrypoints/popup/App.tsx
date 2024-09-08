@@ -38,17 +38,17 @@ function App() {
         <Tabs.Tab value="settings">Settings</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
-        <Paper shadow="md" radius="md" w={420} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={20}>
           {data ? <ServerInfo responseData={data} /> : null}
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
-        <Paper shadow="md" radius="md" w={420} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={20}>
           <CMD />
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="settings">
-        <Paper shadow="md" radius="md" w={420} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={20}>
           <Settings />
         </Paper>
       </Tabs.Panel>
@@ -59,4 +59,3 @@ function App() {
 export default App;
 
 // TODO fix uptime parsing
-// TODO memory chart -> use RingProgress

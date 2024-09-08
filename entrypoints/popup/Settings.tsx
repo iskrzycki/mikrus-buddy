@@ -107,14 +107,12 @@ serverId: "",
           </Button>
         </Group>
       </form>
-      {/* WAITING FOR VERIFICATION */}
-      {/* <a href="https://buycoffee.to/iskrzycki" target="_blank">
-        <img
+      <a href="https://buycoffee.to/iskrzycki" target="_blank">
+        <img width={156} height={40}
           src="https://buycoffee.to/img/share-button-primary.png"
-          style={{ width: "156", height: "40" }}
-          alt="Postaw mi kawę na buycoffee.to"
+                    alt="Postaw mi kawę na buycoffee.to"
         />
-      </a> */}
+      </a>
     </>
   );
 }

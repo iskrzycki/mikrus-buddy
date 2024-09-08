@@ -1,7 +1,7 @@
 import { fetchMikrusAPI, ServerData } from "@/utils";
 import React from "react";
 import ServerInfoPanel from "./ServerInfoPanel";
-import { Button } from "@mantine/core";
+import { Button, Grid } from "@mantine/core";
 import { IconRefresh } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -28,16 +28,26 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
   });
   return (
     <>
-      <Button
-        onClick={async () =>
-          await queryClient.invalidateQueries({ queryKey: ["info"] })
-        }
-      >
-        <IconRefresh />
-      </Button>
-      <Button loading={isPending} disabled={isPending} onClick={() => mutate()}>
-        Restart server
-      </Button>
+      <Grid>
+        <Grid.Col span={2}>
+          <Button
+            onClick={async () =>
+              await queryClient.invalidateQueries({ queryKey: ["info"] })
+            }
+          >
+            <IconRefresh />
+          </Button>
+        </Grid.Col>
+        <Grid.Col span={2}>
+          <Button
+            loading={isPending}
+            disabled={isPending}
+            onClick={() => mutate()}
+          >
+            Restart server
+          </Button>
+        </Grid.Col>
+      </Grid>
       <ServerInfoPanel responseData={responseData} />
     </>
   );

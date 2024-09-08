@@ -1,12 +1,11 @@
-// TODO consider to switch to number instead of string
 interface DiskStats {
-  size: string;
+  size: number;
   usePercent: string;
-  used: string;
-  available: string;
+  used: number;
+  available: number;
   mountedOn: string;
   filesystem: string;
-  reserved: string;
+  reserved: number;
 }
 
 interface MemoryStats {
@@ -125,18 +124,45 @@ export const parseDfString = (dfOutput: string): DiskStats[] => {
     if (match) {
       const [_, filesystem, size, used, available, usePercent, mountedOn] =
         match;
-      // TODO: Calculate this (M or G)
+
+      const parsedSize = parseSizeString(size);
+      const parsedUsed = parseSizeString(used);
+      const parsedAvailable = parseSizeString(available);
+      const calculatedReserved =
+        Math.round(100 * (parsedSize - parsedUsed - parsedAvailable)) / 100;
+
       storageArray.push({
         filesystem,
-        size,
-        used,
-        available,
+        size: parsedSize,
+        used: parsedUsed,
+        available: parsedAvailable,
         usePercent,
         mountedOn,
-        reserved: "0", // (total - used - available)
+        reserved: calculatedReserved,
       });
     }
   }
 
   return storageArray;
+};
+
+export const parseSizeString = (sizeString: string): number => {
+  const sizeRegex = /^(\d+(\.\d+)?)([MG])$/;
+
+  const match = sizeRegex.exec(sizeString);
+
+  if (!match) {
+    throw new Error("Invalid size string: " + sizeString);
+  }
+
+  const size = parseFloat(match[1]);
+  const unit = match[3];
+
+  if (unit === "G") {
+    return size;
+  } else if (unit === "M") {
+    return size / 1000;
+  } else {
+    throw new Error("Invalid unit: " + unit);
+  }
 };
