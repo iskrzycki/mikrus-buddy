@@ -2,11 +2,11 @@ import { Paper, Tabs } from "@mantine/core";
 import { browser } from "wxt/browser";
 import Settings from "./Settings";
 import { getServerInfo } from "@/utils";
-import "./App.css";
 import { useQuery } from "@tanstack/react-query";
 import useStore from "./store";
 import CMD from "./cmd";
 import ServerInfo from "./ServerInfo";
+import "./App.css";
 
 const tempInfo = async () => {
   const { apiKey, serverId } = await browser.storage.sync.get([
@@ -27,8 +27,8 @@ function App() {
   });
 
   return (
-    <Tabs value={activeTab} onChange={(tab) => setActiveTab(tab!)}>
-      <Tabs.List>
+    <Tabs value={activeTab} onChange={(tab) => setActiveTab(tab!)} h={568}>
+      <Tabs.List mb={10}>
         <Tabs.Tab value="info" disabled={!isValidKey}>
           Server info
         </Tabs.Tab>
@@ -38,17 +38,17 @@ function App() {
         <Tabs.Tab value="settings">Settings</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
-        <Paper shadow="md" radius="md" w={500} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={15}>
           {data ? <ServerInfo responseData={data} /> : null}
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">
-        <Paper shadow="md" radius="md" w={500} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={15}>
           <CMD />
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="settings">
-        <Paper shadow="md" radius="md" w={500} p={20}>
+        <Paper shadow="md" radius="md" w={500} p={15}>
           <Settings />
         </Paper>
       </Tabs.Panel>

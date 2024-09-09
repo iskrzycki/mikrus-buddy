@@ -2,7 +2,7 @@ import { fetchMikrusAPI, ServerData } from "@/utils";
 import React from "react";
 import ServerInfoPanel from "./ServerInfoPanel";
 import { Button, Grid } from "@mantine/core";
-import { IconRefresh } from "@tabler/icons-react";
+import { IconRefresh, IconRefreshAlert } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ServerInfoProps {
@@ -29,17 +29,19 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
   return (
     <>
       <Grid>
-        <Grid.Col span={2}>
+        <Grid.Col span={3}>
           <Button
+            rightSection={<IconRefresh size={14} />}
             onClick={async () =>
               await queryClient.invalidateQueries({ queryKey: ["info"] })
             }
           >
-            <IconRefresh />
+            Refresh
           </Button>
         </Grid.Col>
         <Grid.Col span={2}>
           <Button
+            rightSection={<IconRefreshAlert size={14} />}
             loading={isPending}
             disabled={isPending}
             onClick={() => mutate()}

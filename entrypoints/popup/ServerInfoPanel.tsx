@@ -1,8 +1,12 @@
 import { ServerData } from "@/utils";
-import { Accordion, Grid } from "@mantine/core";
+import { Accordion, Grid, Text } from "@mantine/core";
 import React from "react";
 import StatsCircle from "./StatsCircle";
-import { IconPrinter } from "@tabler/icons-react";
+import {
+  IconCpu,
+  IconDatabase,
+  IconDeviceDesktopAnalytics,
+} from "@tabler/icons-react";
 
 interface ServerInfoPanelProps {
   responseData: ServerData;
@@ -10,46 +14,47 @@ interface ServerInfoPanelProps {
 
 const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
   return (
-    <Accordion defaultValue="info">
+    <Accordion defaultValue="info" mt={20}>
       <Accordion.Item value="info">
-        <Accordion.Control icon={<IconPrinter />}>
+        <Accordion.Control icon={<IconDeviceDesktopAnalytics />}>
           Server info
         </Accordion.Control>
         <Accordion.Panel>
-          <p>
+          <Text>
             <strong>Server id:</strong> {responseData.server_id}
-          </p>
+          </Text>
           {responseData.server_name && (
-            <p>
+            <Text>
               <strong>Server name:</strong> {responseData.server_name}
-            </p>
+            </Text>
           )}
-          <p>
+          <Text>
             <strong>Expires:</strong> {responseData.expires.split(" ")[0]}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>Expires storage: </strong>
             {responseData.expires_storage
               ? responseData.expires_storage.split(" ")[0]
               : "no storage"}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>RAM:</strong> {responseData.param_ram} MB
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>HDD:</strong> {responseData.param_disk} GB
-          </p>
-          <p>
+          </Text>
+          <Text>
+            {/* TODO consider using <Badge /> here */}
             <strong>mikr.us pro:</strong> {responseData.mikrus_pro}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>uptime:</strong> {responseData.uptime}
-          </p>
+          </Text>
         </Accordion.Panel>
       </Accordion.Item>
 
       <Accordion.Item value="ram">
-        <Accordion.Control icon={<IconPrinter />}>RAM stats</Accordion.Control>
+        <Accordion.Control icon={<IconCpu />}>RAM stats</Accordion.Control>
         <Accordion.Panel>
           {responseData.memory && (
             <StatsCircle
@@ -76,9 +81,8 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
           )}
         </Accordion.Panel>
       </Accordion.Item>
-
       <Accordion.Item value="hdd">
-        <Accordion.Control icon={<IconPrinter />}>HDD stats</Accordion.Control>
+        <Accordion.Control icon={<IconDatabase />}>HDD stats</Accordion.Control>
         <Accordion.Panel>
           <Grid>
             {responseData.disk &&

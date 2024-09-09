@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { extractUptime, parseDfString, parseMemoryStats } from "../utils";
+import { extractSystemInfo, parseDfString, parseMemoryStats } from "../utils";
 
 const serverStats = {
   free: "total        used        free      shared  buff/cache   available\nMem:            1280        1025           5          16         249         254\nSwap:              0           0           0",
@@ -8,8 +8,15 @@ const serverStats = {
     "18:38:10 up 3 days, 22:14,  0 users,  load average: 0.00, 0.00, 0.00\nsh: 1: echo",
 };
 
+// TODO add more tests (also for the system time)
 test("extractUptime", () => {
-  expect(extractUptime(serverStats.uptime)).toBe("3 days, 22:14");
+  expect(extractSystemInfo(serverStats.uptime).uptime).toBe("3 days, 22:14");
+
+  expect(
+    extractSystemInfo(
+      "20:28:52 up 9 days, 5 min, 0 users, load average: 0.13, 0.20, 0.13 sh: 1: echo"
+    ).uptime
+  ).toBe("9 days, 5 min");
 });
 
 test("parseMemoryStats", () => {

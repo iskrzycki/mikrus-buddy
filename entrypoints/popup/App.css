@@ -3,3 +3,6 @@
   padding: 1rem;
   text-align: left;
 }
+body {
+  background-color: #f6f6f6 !important;
+}

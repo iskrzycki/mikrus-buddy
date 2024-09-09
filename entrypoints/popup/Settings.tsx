@@ -1,7 +1,18 @@
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
-import { TextInput, Button, PasswordInput, Group, Text } from "@mantine/core";
+import {
+TextInput,
+Button,
+PasswordInput,
+Group,
+Text,
+  Image,
+  Anchor,
+  Grid,
+} from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
+import packageJson from "../../package.json";
+
 import { fetchMikrusAPI } from "@/utils";
 import useStore from "./store";
 
@@ -107,12 +118,27 @@ serverId: "",
           </Button>
         </Group>
       </form>
-      <a href="https://buycoffee.to/iskrzycki" target="_blank">
-        <img width={156} height={40}
+      <Grid mt={90} align="center">
+        <Grid.Col span={5}>
+          <Text>
+            Author:{" "}
+            <Anchor href="https://github.com/iskrzycki" target="_blank">
+              Rafał Iskrzycki
+            </Anchor>
+          </Text>
+          <Text>App version: {packageJson.version}</Text>
+          {/* TODO consider linking repo here */}
+        </Grid.Col>
+        <Grid.Col span={4} offset={3}>
+          <Anchor href="https://buycoffee.to/iskrzycki" target="_blank">
+        <Image
           src="https://buycoffee.to/img/share-button-primary.png"
-                    alt="Postaw mi kawę na buycoffee.to"
+                    alt="Buy me a coffee"
+              w={130}
         />
-      </a>
+      </Anchor>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

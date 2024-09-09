@@ -68,23 +68,29 @@ export const getServerInfo = async (
 
   return {
     ...info,
-    uptime: extractUptime(stats.uptime),
+    uptime: extractSystemInfo(stats.uptime).uptime,
     memory: parseMemoryStats(stats.free),
     disk: parseDfString(stats.df),
   };
 };
-// 16:27:02 up 3 days, 22:15, 0 users, load average: 0.08, 0.10, 0.04 sh: 1: echo
-export const extractUptime = (uptimeString: string): string => {
-  // Regular expression to match uptime with or without days
-  const uptimeRegex = /up\s+((\d+\s+days?,\s+)?\d+:\d+)/;
-  const match = uptimeRegex.exec(uptimeString);
 
-  if (!match) {
-    return "invalid uptime";
+export const extractSystemInfo = (inputString: string): any => {
+  // Regular expression to match the system time in the format HH:MM:SS
+  const timeRegex = /^(\d{2}:\d{2}:\d{2})/;
+  const timeMatch = inputString.match(timeRegex);
+
+  // Regular expression to match everything between the system time and the user counter
+  const uptimeRegex = /\d{2}:\d{2}:\d{2}\s+up\s+(.+?),\s+\d+\s+users/;
+  const uptimeMatch = inputString.match(uptimeRegex);
+
+  if (!timeMatch || !uptimeMatch) {
+    throw new Error("Invalid input string: " + inputString);
   }
 
-  const uptime = match[1].trim();
-  return uptime;
+  const systemTime = timeMatch[1];
+  const uptime = uptimeMatch[1];
+
+  return { systemTime, uptime };
 };
 
 export const parseMemoryStats = (memoryString: string): MemoryStats | null => {
