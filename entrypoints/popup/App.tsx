@@ -32,7 +32,6 @@ function App() {
   const onTabChange = (tab: string) => {
     if (tab === "logs") {
       queryClient.invalidateQueries({ queryKey: ["logs"] })
-    // fetch logs
     }
     setActiveTab(tab);
   };

@@ -6,3 +6,8 @@
 body {
   background-color: #f6f6f6 !important;
 }
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
