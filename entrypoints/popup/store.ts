@@ -8,21 +8,30 @@ interface AppState {
   reset: () => void;
 }
 
-console.log("store.ts");
-// TODO getting false there, but key and serverId already exists in store and seems to be valid.
-const userData = await browser.storage.sync.get(["isValidKey"]);
-console.log("userdata", userData);
+const initialState = {
+  isValidKey: false,
+  activeTab: "settings",
+};
 
-const useStore = create<AppState>((set) => ({
-  isValidKey: userData.isValidKey || false,
-  activeTab: userData.isValidKey ? "info" : "settings",
-  setIsValidKey: (isValidKey) => set({ isValidKey }),
-  setActiveTab: (activeTab) => set({ activeTab }),
-  reset: () =>
-    set({
-      isValidKey: false,
-      activeTab: "settings",
-    }),
-}));
+const fetchInitialValues = async () => {
+  const userData = await browser.storage.sync.get(["isValidKey"]);
+  return {
+    isValidKey: userData.isValidKey || false,
+    activeTab: userData.isValidKey ? "info" : "settings",
+  };
+};
+
+const useStore = create<AppState>((set) => {
+  fetchInitialValues().then((initialValues) => {
+    set(initialValues);
+  });
+
+  return {
+    ...initialState,
+    setIsValidKey: (isValidKey) => set({ isValidKey }),
+    setActiveTab: (activeTab) => set({ activeTab }),
+    reset: () => set(initialState),
+  };
+});
 
 export default useStore;

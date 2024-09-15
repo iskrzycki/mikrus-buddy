@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
 import {
-TextInput,
-Button,
-PasswordInput,
-Group,
-Text,
+  TextInput,
+  Button,
+  PasswordInput,
+  Group,
+  Text,
   Image,
   Anchor,
   Grid,
@@ -24,9 +24,9 @@ function Settings() {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-apiKey: "",
-serverId: "",
-},
+      apiKey: "",
+      serverId: "",
+    },
     validate: {
       apiKey: (value) =>
         value.trim().length !== 40 ? "API key must have 40 letters" : null,
@@ -112,13 +112,12 @@ serverId: "",
           <Button type="submit" disabled={isValidKey}>
             Validate
           </Button>
-          {/* TODO disable if logged out */}
           <Button onClick={onLogout} disabled={!isValidKey}>
             Logout
           </Button>
         </Group>
       </form>
-      <Grid mt={90} align="center">
+      <Grid mt={230} align="center">
         <Grid.Col span={5}>
           <Text>
             Author:{" "}
@@ -131,12 +130,12 @@ serverId: "",
         </Grid.Col>
         <Grid.Col span={4} offset={3}>
           <Anchor href="https://buycoffee.to/iskrzycki" target="_blank">
-        <Image
-          src="https://buycoffee.to/img/share-button-primary.png"
-                    alt="Buy me a coffee"
+            <Image
+              src="https://buycoffee.to/img/share-button-primary.png"
+              alt="Buy me a coffee"
               w={130}
-        />
-      </Anchor>
+            />
+          </Anchor>
         </Grid.Col>
       </Grid>
     </>

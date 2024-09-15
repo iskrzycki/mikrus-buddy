@@ -87,7 +87,7 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
           <Grid>
             {responseData.disk &&
               responseData.disk.map((disk) => (
-                <Grid.Col span={6}>
+                <Grid.Col span={6} key={disk.filesystem}>
                   <StatsCircle
                     key={disk.filesystem}
                     title={disk.mountedOn}
