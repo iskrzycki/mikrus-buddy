@@ -2,7 +2,11 @@ import { fetchMikrusAPI, ServerData } from "@/utils";
 import React from "react";
 import ServerInfoPanel from "./ServerInfoPanel";
 import { Button, Flex } from "@mantine/core";
-import { IconPill, IconRefresh, IconRefreshAlert } from "@tabler/icons-react";
+import {
+  IconPillFilled,
+  IconRefresh,
+  IconRefreshAlert,
+} from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ServerInfoProps {
@@ -54,7 +58,7 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
           Restart server
         </Button>
         <Button
-          rightSection={<IconPill size={14} />}
+          rightSection={<IconPillFilled size={14} />}
           loading={isAmphetaminePending}
           disabled={isAmphetaminePending}
           onClick={() => getAmphetamineMutate()}
