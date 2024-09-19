@@ -5,7 +5,7 @@ export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   manifest: {
     permissions: ["storage"],
-    version: "0.1",
+    version: "0.1.2",
     host_permissions: ["https://api.mikr.us/*"],
     action: {
       default_popup: "popup.html",

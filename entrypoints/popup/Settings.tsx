@@ -125,7 +125,7 @@ function Settings() {
               Rafał Iskrzycki
             </Anchor>
           </Text>
-          <Text>App version: {packageJson.version}</Text>
+          <Text>App version: {browser.runtime.getManifest().version}</Text>
           {/* TODO consider linking repo here */}
         </Grid.Col>
         <Grid.Col span={4} offset={3}>
