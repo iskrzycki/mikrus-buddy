@@ -13,5 +13,32 @@ settings:
   validate:
     api_key: API key must have 40 letters
     server_id: ServerId must have at least 2 letters
-
-
+  form:
+    api_key: API key
+    server_id: ServerId
+    validate: Validate
+    logout: Logout
+  info:
+    author: Author
+    version: Version
+    coffee: Buy me a coffee
+server_info:
+  controls:
+    refresh: Refresh
+    restart: Restart server
+    amphetamine: Amphetamine
+  info:
+    title: Server info
+    server_id: ServerId
+    server_name: Server name
+    expires_at: Server expires at
+    expires_storage_at: Storage expires at
+    no_storage: No storage
+    ram: RAM
+    hdd: HDD
+    mikrus_pro: Mikrus Pro
+    uptime: Uptime
+  RAM:
+    title: RAM stats
+  HDD:
+    title: HDD stats

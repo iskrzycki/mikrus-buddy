@@ -5,7 +5,7 @@ import Settings from "./Settings";
 import { getServerInfo } from "@/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useStore from "./store";
-import CMD from "./Cmd";
+import CMD from "./cmd";
 import ServerInfo from "./ServerInfo";
 import "./App.css";
 import Logs from "./Logs";

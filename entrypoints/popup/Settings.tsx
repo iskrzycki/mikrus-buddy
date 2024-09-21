@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { i18n } from "#i18n";
 import { useForm } from "@mantine/form";
 import {
   TextInput,
@@ -90,15 +91,15 @@ function Settings() {
     <>
       <form onSubmit={form.onSubmit(onSubmit)}>
         <PasswordInput
-          label="API key"
-          placeholder="API key"
+          label={i18n.t("settings.form.api_key")}
+          placeholder={i18n.t("settings.form.api_key")}
           key={form.key("apiKey")}
           {...form.getInputProps("apiKey")}
         />
         <TextInput
           mt="md"
-          label="Server ID"
-          placeholder="Server ID"
+          label={i18n.t("settings.form.server_id")}
+          placeholder={i18n.t("settings.form.server_id")}
           key={form.key("serverId")}
           {...form.getInputProps("serverId")}
         />
@@ -107,29 +108,32 @@ function Settings() {
         </Text>
         <Group justify="center" mt="xl">
           <Button type="submit" disabled={isValidKey}>
-            Validate
+            {i18n.t("settings.form.validate")}
           </Button>
           <Button onClick={onLogout} disabled={!isValidKey}>
-            Logout
+            {i18n.t("settings.form.logout")}
           </Button>
         </Group>
       </form>
       <Grid mt={230} align="center">
         <Grid.Col span={5}>
           <Text>
-            Author:{" "}
+            {i18n.t("settings.info.author")}:{" "}
             <Anchor href="https://github.com/iskrzycki" target="_blank">
               Rafał Iskrzycki
             </Anchor>
           </Text>
-          <Text>App version: {browser.runtime.getManifest().version}</Text>
+          <Text>
+            {i18n.t("settings.info.version")}:{" "}
+{browser.runtime.getManifest().version}
+</Text>
           {/* TODO consider linking repo here */}
         </Grid.Col>
         <Grid.Col span={4} offset={3}>
           <Anchor href="https://buycoffee.to/iskrzycki" target="_blank">
             <Image
               src="https://buycoffee.to/img/share-button-primary.png"
-              alt="Buy me a coffee"
+              alt={i18n.t("settings.info.coffee")}
               w={130}
             />
           </Anchor>
