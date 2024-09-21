@@ -1,0 +1,17 @@
+main:
+  server_info: Server info
+  cmd: CMD
+  logs: Logs
+  settings: Settings
+cmd:
+  not_supported: CMD is not supported yet
+logs:
+  task: Task
+  created_at: Created at
+  done_at: Done at
+settings:
+  validate:
+    api_key: API key must have 40 letters
+    server_id: ServerId must have at least 2 letters
+
+

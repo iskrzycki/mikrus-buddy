@@ -1,5 +1,6 @@
 import { Center, Loader, Paper, Tabs } from "@mantine/core";
 import { browser } from "wxt/browser";
+import { i18n } from '#i18n';
 import Settings from "./Settings";
 import { getServerInfo } from "@/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -31,7 +32,7 @@ function App() {
 
   const onTabChange = (tab: string) => {
     if (tab === "logs") {
-      queryClient.invalidateQueries({ queryKey: ["logs"] })
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
     }
     setActiveTab(tab);
   };
@@ -40,15 +41,15 @@ function App() {
     <Tabs value={activeTab} onChange={(tab) => onTabChange(tab!)} h={568}>
       <Tabs.List mb={10}>
         <Tabs.Tab value="info" disabled={!isValidKey}>
-          Server info
+          {i18n.t('main.server_info')}
         </Tabs.Tab>
         <Tabs.Tab value="cmd" disabled={!isValidKey}>
-          CMD
+        {i18n.t('main.cmd')}
         </Tabs.Tab>
         <Tabs.Tab value="logs" disabled={!isValidKey}>
-          Logs
+        {i18n.t('main.logs')}
         </Tabs.Tab>
-        <Tabs.Tab value="settings">Settings</Tabs.Tab>
+        <Tabs.Tab value="settings">{i18n.t('main.settings')}</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
         <Paper shadow="md" radius="md" w={500} h={520} p={15}>

@@ -11,7 +11,6 @@ import {
   Grid,
 } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
-import packageJson from "../../package.json";
 
 import { fetchMikrusAPI } from "@/utils";
 import useStore from "./store";
@@ -29,11 +28,9 @@ function Settings() {
     },
     validate: {
       apiKey: (value) =>
-        value.trim().length !== 40 ? "API key must have 40 letters" : null,
+        value.trim().length !== 40 ? i18n.t("settings.validate.api_key") : null,
       serverId: (value) =>
-        value.trim().length < 2
-          ? "ServerId must have at least 2 letters"
-          : null,
+        value.trim().length < 2 ? i18n.t("settings.validate.server_id") : null,
     },
   });
 
