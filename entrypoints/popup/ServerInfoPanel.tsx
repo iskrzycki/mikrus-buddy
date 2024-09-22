@@ -68,23 +68,29 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
         <Accordion.Panel>
           {responseData.memory && (
             <StatsCircle
-              title="RAM"
+              title={i18n.t("server_info.RAM.chart.title")}
               total={responseData.memory.total}
               sections={[
                 {
                   value: responseData.memory.used,
                   color: "cyan",
-                  tooltip: `Used (${responseData.memory.used} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.used", [
+                    responseData.memory.used,
+                  ]),
                 },
                 {
                   value: responseData.memory.free,
                   color: "orange",
-                  tooltip: `Free (${responseData.memory.free} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.free", [
+                    responseData.memory.free,
+                  ]),
                 },
                 {
                   value: responseData.memory.buffCache,
                   color: "grape",
-                  tooltip: `Buff/cache (${responseData.memory.buffCache} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.buff", [
+                    responseData.memory.buffCache,
+                  ]),
                 },
               ]}
             />
@@ -108,17 +114,23 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
                       {
                         value: disk.used,
                         color: "cyan",
-                        tooltip: `Used (${disk.used} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.used", [
+                          disk.used,
+                        ]),
                       },
                       {
                         value: disk.available,
                         color: "orange",
-                        tooltip: `Available (${disk.available} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.available", [
+                          disk.available,
+                        ]),
                       },
                       {
                         value: disk.reserved,
                         color: "gray",
-                        tooltip: `Reserved (${disk.reserved} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.reserved", [
+                          disk.reserved,
+                        ]),
                       },
                     ]}
                   />

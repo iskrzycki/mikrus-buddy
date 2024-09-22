@@ -40,5 +40,16 @@ server_info:
     uptime: Uptime
   RAM:
     title: RAM stats
+    chart:
+      title: RAM
+      used: Used ($1 mb)
+      free: Free ($1 mb)
+      buff: Buff/cache ($1 mb)
   HDD:
     title: HDD stats
+    chart:
+      used: Used ($1 G)
+      available: Available ($1 G)
+      reserved: Reserved ($1 G)
+  chart:
+    hover: (hover for details)
