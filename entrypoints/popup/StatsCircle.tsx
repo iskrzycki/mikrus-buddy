@@ -1,5 +1,6 @@
 import { RingProgress, RingProgressProps, Text } from "@mantine/core";
 import React from "react";
+import { i18n } from "#i18n";
 
 interface StatsCircleProps {
   title: string;
@@ -24,7 +25,7 @@ const StatsCircle: React.FC<StatsCircleProps> = ({
       thickness={16}
       label={
         <Text size="xs" ta="center" px="xs" style={{ pointerEvents: "none" }}>
-          <b>{title}</b> (hover for details)
+          <b>{title}</b> {i18n.t("server_info.chart.hover")}
         </Text>
       }
       sections={calculatedSections}

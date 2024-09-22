@@ -1,7 +1,8 @@
 import { fetchMikrusAPI, ServerData } from "@/utils";
+import { i18n } from "#i18n";
 import React from "react";
-import ServerInfoPanel from "./ServerInfoPanel";
 import { Button, Flex } from "@mantine/core";
+import ServerInfoPanel from "./ServerInfoPanel";
 import {
   IconPillFilled,
   IconRefresh,
@@ -47,7 +48,7 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
             await queryClient.invalidateQueries({ queryKey: ["info"] })
           }
         >
-          Refresh
+          {i18n.t("server_info.controls.refresh")}
         </Button>
         <Button
           rightSection={<IconRefreshAlert size={14} />}
@@ -55,7 +56,7 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
           disabled={isRestartPending}
           onClick={() => restartServerMutate()}
         >
-          Restart server
+          {i18n.t("server_info.controls.restart")}
         </Button>
         <Button
           rightSection={<IconPillFilled size={14} />}
@@ -63,7 +64,7 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
           disabled={isAmphetaminePending}
           onClick={() => getAmphetamineMutate()}
         >
-          Amphetamine
+          {i18n.t("server_info.controls.amphetamine")}
         </Button>
       </Flex>
       <ServerInfoPanel responseData={responseData} />

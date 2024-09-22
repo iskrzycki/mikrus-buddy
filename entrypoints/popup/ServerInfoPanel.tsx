@@ -1,6 +1,7 @@
 import { ServerData } from "@/utils";
 import { Accordion, Grid, Text } from "@mantine/core";
 import React from "react";
+import { i18n } from "#i18n";
 import StatsCircle from "./StatsCircle";
 import {
   IconCpu,
@@ -17,64 +18,79 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
     <Accordion defaultValue="info" mt={20}>
       <Accordion.Item value="info">
         <Accordion.Control icon={<IconDeviceDesktopAnalytics />}>
-          Server info
+          {i18n.t("server_info.info.title")}
         </Accordion.Control>
         <Accordion.Panel>
           <Text>
-            <strong>Server id:</strong> {responseData.server_id}
+            <strong>{i18n.t("server_info.info.server_id")}:</strong>{" "}
+            {responseData.server_id}
           </Text>
           {responseData.server_name && (
             <Text>
-              <strong>Server name:</strong> {responseData.server_name}
+              <strong>{i18n.t("server_info.info.server_name")}:</strong>{" "}
+              {responseData.server_name}
             </Text>
           )}
           <Text>
-            <strong>Expires:</strong> {responseData.expires.split(" ")[0]}
+            <strong>{i18n.t("server_info.info.expires_at")}:</strong>{" "}
+            {responseData.expires.split(" ")[0]}
           </Text>
           <Text>
-            <strong>Expires storage: </strong>
+            <strong>{i18n.t("server_info.info.expires_storage_at")}: </strong>
             {responseData.expires_storage
               ? responseData.expires_storage.split(" ")[0]
-              : "no storage"}
+              : i18n.t("server_info.info.no_storage")}
           </Text>
           <Text>
-            <strong>RAM:</strong> {responseData.param_ram} MB
+            <strong>{i18n.t("server_info.info.ram")}:</strong>{" "}
+            {responseData.param_ram} MB
           </Text>
           <Text>
-            <strong>HDD:</strong> {responseData.param_disk} GB
+            <strong>{i18n.t("server_info.info.hdd")}:</strong>{" "}
+            {responseData.param_disk} GB
           </Text>
           <Text>
             {/* TODO consider using <Badge /> here */}
-            <strong>mikr.us pro:</strong> {responseData.mikrus_pro}
+            <strong>{i18n.t("server_info.info.mikrus_pro")}:</strong>{" "}
+            {responseData.mikrus_pro}
           </Text>
           <Text>
-            <strong>uptime:</strong> {responseData.uptime}
+            <strong>{i18n.t("server_info.info.uptime")}:</strong>{" "}
+            {responseData.uptime}
           </Text>
         </Accordion.Panel>
       </Accordion.Item>
 
       <Accordion.Item value="ram">
-        <Accordion.Control icon={<IconCpu />}>RAM stats</Accordion.Control>
+        <Accordion.Control icon={<IconCpu />}>
+          {i18n.t("server_info.RAM.title")}
+        </Accordion.Control>
         <Accordion.Panel>
           {responseData.memory && (
             <StatsCircle
-              title="RAM"
+              title={i18n.t("server_info.RAM.chart.title")}
               total={responseData.memory.total}
               sections={[
                 {
                   value: responseData.memory.used,
                   color: "cyan",
-                  tooltip: `Used (${responseData.memory.used} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.used", [
+                    responseData.memory.used,
+                  ]),
                 },
                 {
                   value: responseData.memory.free,
                   color: "orange",
-                  tooltip: `Free (${responseData.memory.free} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.free", [
+                    responseData.memory.free,
+                  ]),
                 },
                 {
                   value: responseData.memory.buffCache,
                   color: "grape",
-                  tooltip: `Buff/cache (${responseData.memory.buffCache} mb)`,
+                  tooltip: i18n.t("server_info.RAM.chart.buff", [
+                    responseData.memory.buffCache,
+                  ]),
                 },
               ]}
             />
@@ -82,7 +98,9 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
         </Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item value="hdd">
-        <Accordion.Control icon={<IconDatabase />}>HDD stats</Accordion.Control>
+        <Accordion.Control icon={<IconDatabase />}>
+          {i18n.t("server_info.HDD.title")}
+        </Accordion.Control>
         <Accordion.Panel>
           <Grid>
             {responseData.disk &&
@@ -96,17 +114,23 @@ const ServerInfoPanel: React.FC<ServerInfoPanelProps> = ({ responseData }) => {
                       {
                         value: disk.used,
                         color: "cyan",
-                        tooltip: `Used (${disk.used} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.used", [
+                          disk.used,
+                        ]),
                       },
                       {
                         value: disk.available,
                         color: "orange",
-                        tooltip: `Available (${disk.available} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.available", [
+                          disk.available,
+                        ]),
                       },
                       {
                         value: disk.reserved,
                         color: "gray",
-                        tooltip: `Reserved (${disk.reserved} G)`,
+                        tooltip: i18n.t("server_info.HDD.chart.reserved", [
+                          disk.reserved,
+                        ]),
                       },
                     ]}
                   />

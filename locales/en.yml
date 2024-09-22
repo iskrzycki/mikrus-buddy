@@ -1,0 +1,55 @@
+main:
+  server_info: Server info
+  cmd: CMD
+  logs: Logs
+  settings: Settings
+cmd:
+  not_supported: CMD is not supported yet
+logs:
+  task: Task
+  created_at: Created at
+  done_at: Done at
+settings:
+  validate:
+    api_key: API key must have 40 letters
+    server_id: ServerId must have at least 2 letters
+  form:
+    api_key: API key
+    server_id: ServerId
+    validate: Validate
+    logout: Logout
+  info:
+    author: Author
+    version: Version
+    coffee: Buy me a coffee
+server_info:
+  controls:
+    refresh: Refresh
+    restart: Restart server
+    amphetamine: Amphetamine
+  info:
+    title: Server info
+    server_id: ServerId
+    server_name: Server name
+    expires_at: Server expires at
+    expires_storage_at: Storage expires at
+    no_storage: No storage
+    ram: RAM
+    hdd: HDD
+    mikrus_pro: Mikrus Pro
+    uptime: Uptime
+  RAM:
+    title: RAM stats
+    chart:
+      title: RAM
+      used: Used ($1 mb)
+      free: Free ($1 mb)
+      buff: Buff/cache ($1 mb)
+  HDD:
+    title: HDD stats
+    chart:
+      used: Used ($1 G)
+      available: Available ($1 G)
+      reserved: Reserved ($1 G)
+  chart:
+    hover: (hover for details)

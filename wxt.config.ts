@@ -2,7 +2,7 @@ import { defineConfig } from "wxt";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-  modules: ["@wxt-dev/module-react"],
+  modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
   manifest: {
     permissions: ["storage"],
     version: "0.1.2",
@@ -12,5 +12,6 @@ export default defineConfig({
     },
     name: "mikr.us addon",
     description: "An extension that helps you manage your mikr.us server",
+    default_locale: "en",
   },
 });

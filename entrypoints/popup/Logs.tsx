@@ -1,5 +1,6 @@
 import { HoverCard, Loader, Table, Text } from "@mantine/core";
 import { browser } from "wxt/browser";
+import { i18n } from "#i18n";
 
 import { fetchMikrusAPI } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -45,9 +46,9 @@ function Logs() {
         >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Task</Table.Th>
-              <Table.Th>Created at</Table.Th>
-              <Table.Th>Done at</Table.Th>
+              <Table.Th>{i18n.t("logs.task")}</Table.Th>
+              <Table.Th>{i18n.t("logs.created_at")}</Table.Th>
+              <Table.Th>{i18n.t("logs.done_at")}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
