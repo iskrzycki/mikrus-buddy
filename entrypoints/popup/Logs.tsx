@@ -53,9 +53,9 @@ function Logs() {
           </Table.Thead>
           <Table.Tbody>
             {data.map((log: Log) => (
-              <HoverCard width={280} shadow="xl">
+              <HoverCard key={log.id} width={280} shadow="xl">
                 <HoverCard.Target>
-                  <Table.Tr key={log.id} className="prevent-select">
+                  <Table.Tr className="prevent-select">
                     <Table.Td>{log.task}</Table.Td>
                     <Table.Td>{log.when_created}</Table.Td>
                     <Table.Td>{log.when_done}</Table.Td>

@@ -1,65 +1,44 @@
-import { Center, Loader, Paper, Tabs } from "@mantine/core";
-import { browser } from "wxt/browser";
-import { i18n } from '#i18n';
+import { useEffect } from "react";
+import { Paper, Tabs } from "@mantine/core";
+import { i18n } from "#i18n";
 import Settings from "./Settings";
-import { getServerInfo } from "@/utils";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import useStore from "./store";
 import CMD from "./cmd";
 import ServerInfo from "./ServerInfo";
 import "./App.css";
 import Logs from "./Logs";
 
-const serverInfoQuery = async () => {
-  const { apiKey, serverId } = await browser.storage.sync.get([
-    "apiKey",
-    "serverId",
-  ]);
-  if (apiKey && serverId) {
-    return await getServerInfo(apiKey, serverId);
-  }
-  return null;
-};
-
 function App() {
   const { isValidKey, activeTab, setActiveTab } = useStore();
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: ["info"],
-    queryFn: serverInfoQuery,
-    refetchOnWindowFocus: false,
-  });
 
-  const onTabChange = (tab: string) => {
-    if (tab === "logs") {
+  useEffect(() => {
+    console.log("useEffect. activeTab", activeTab);
+    if (activeTab === "info") {
+      queryClient.invalidateQueries({ queryKey: ["info"] });
+    } else if (activeTab === "logs") {
       queryClient.invalidateQueries({ queryKey: ["logs"] });
     }
-    setActiveTab(tab);
-  };
+  }, [activeTab, queryClient]);
 
   return (
-    <Tabs value={activeTab} onChange={(tab) => onTabChange(tab!)} h={568}>
+    <Tabs value={activeTab} onChange={(tab) => setActiveTab(tab!)} h={568}>
       <Tabs.List mb={10}>
         <Tabs.Tab value="info" disabled={!isValidKey}>
-          {i18n.t('main.server_info')}
+          {i18n.t("main.server_info")}
         </Tabs.Tab>
         <Tabs.Tab value="cmd" disabled={!isValidKey}>
-        {i18n.t('main.cmd')}
+          {i18n.t("main.cmd")}
         </Tabs.Tab>
         <Tabs.Tab value="logs" disabled={!isValidKey}>
-        {i18n.t('main.logs')}
+          {i18n.t("main.logs")}
         </Tabs.Tab>
-        <Tabs.Tab value="settings">{i18n.t('main.settings')}</Tabs.Tab>
+        <Tabs.Tab value="settings">{i18n.t("main.settings")}</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="info">
         <Paper shadow="md" radius="md" w={500} h={520} p={15}>
-          {data ? (
-            <ServerInfo responseData={data} />
-          ) : isLoading ? (
-            <Center>
-              <Loader size={50} />
-            </Center>
-          ) : null}
+          <ServerInfo />
         </Paper>
       </Tabs.Panel>
       <Tabs.Panel value="cmd">

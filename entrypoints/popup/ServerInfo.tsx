@@ -1,18 +1,14 @@
-import { fetchMikrusAPI, ServerData } from "@/utils";
+import { fetchMikrusAPI, getServerInfo } from "@/utils";
 import { i18n } from "#i18n";
 import React from "react";
-import { Button, Flex } from "@mantine/core";
+import { Button, Center, Flex, Loader } from "@mantine/core";
 import ServerInfoPanel from "./ServerInfoPanel";
 import {
   IconPillFilled,
   IconRefresh,
   IconRefreshAlert,
 } from "@tabler/icons-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-interface ServerInfoProps {
-  responseData: ServerData;
-}
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const fetchMikrusEndpoint = async (endpoint: "restart" | "amfetamina") => {
   const { apiKey, serverId } = await browser.storage.sync.get([
@@ -24,8 +20,25 @@ const fetchMikrusEndpoint = async (endpoint: "restart" | "amfetamina") => {
   }
 };
 
-const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
+const serverInfoQuery = async () => {
+  const { apiKey, serverId } = await browser.storage.sync.get([
+    "apiKey",
+    "serverId",
+  ]);
+  if (apiKey && serverId) {
+    return await getServerInfo(apiKey, serverId);
+  }
+  return null;
+};
+
+const ServerInfo: React.FC = () => {
   const queryClient = useQueryClient();
+  const { data, isLoading } = useQuery({
+    queryKey: ["info"],
+    queryFn: serverInfoQuery,
+    refetchOnWindowFocus: false,
+  });
+
   const { isPending: isRestartPending, mutate: restartServerMutate } =
     useMutation({
       mutationFn: () => fetchMikrusEndpoint("restart"),
@@ -67,7 +80,13 @@ const ServerInfo: React.FC<ServerInfoProps> = ({ responseData }) => {
           {i18n.t("server_info.controls.amphetamine")}
         </Button>
       </Flex>
-      <ServerInfoPanel responseData={responseData} />
+      {isLoading ? (
+        <Center>
+          <Loader size={50} />
+        </Center>
+      ) : (
+        data && <ServerInfoPanel data={data} />
+      )}
     </>
   );
 };

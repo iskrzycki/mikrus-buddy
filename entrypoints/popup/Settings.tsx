@@ -68,8 +68,7 @@ function Settings() {
     setIsValidKey(isSuccess);
     if (isSuccess) {
       setActiveTab("info");
-      await queryClient.invalidateQueries({ queryKey: ["info"] });
-    } else {
+          } else {
       setError(data.error);
       console.log("error", data);
       // TODO: consider https://mantine.dev/x/notifications/
