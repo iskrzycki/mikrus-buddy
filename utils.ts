@@ -153,7 +153,7 @@ export const parseDfString = (dfOutput: string): DiskStats[] => {
 };
 
 export const parseSizeString = (sizeString: string): number => {
-  const sizeRegex = /^(\d+(\.\d+)?)([MG])$/;
+  const sizeRegex = /^(\d+(\.\d+)?)([MG])?$/;
 
   const match = sizeRegex.exec(sizeString);
 
@@ -164,11 +164,9 @@ export const parseSizeString = (sizeString: string): number => {
   const size = parseFloat(match[1]);
   const unit = match[3];
 
-  if (unit === "G") {
-    return size;
-  } else if (unit === "M") {
+  if (unit === "M") {
     return size / 1000;
   } else {
-    throw new Error("Invalid unit: " + unit);
+    return size;
   }
 };

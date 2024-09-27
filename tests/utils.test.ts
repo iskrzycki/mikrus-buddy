@@ -31,14 +31,30 @@ test("parseMemoryStats", () => {
     swapTotal: 0,
     swapUsed: 0,
   });
+
+  expect(
+    parseMemoryStats(
+      "total        used        free      shared  buff/cache   available\nMem:            768         379         120           4         268         388\nSwap:             0           0           0"
+    )
+  ).toEqual({
+    available: 388,
+    buffCache: 268,
+    free: 120,
+    shared: 4,
+    total: 768,
+    used: 379,
+    swapFree: 0,
+    swapTotal: 0,
+    swapUsed: 0,
+  });
 });
 
 describe("parseDfString", () => {
   test("should parse df string with two storages", () => {
     const dfString =
       "Filesystem                                         Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--630--disk--0                    15G   14G  848M  95% /\n/dev/mapper/storage01--vg--srv07-vm--630--disk--0  123G  259M  117G   1% /storage";
-
-    expect(parseDfString(dfString)).toEqual([
+    
+      expect(parseDfString(dfString)).toEqual([
       {
         available: 0.848,
         filesystem: "/dev/mapper/pve-vm--630--disk--0",
@@ -76,4 +92,31 @@ describe("parseDfString", () => {
       },
     ]);
   });
+  test("should parse df string - two storages, one with 0 used", () => {
+    const dfString =
+      "Filesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--552--disk--0  9.8G  7.8G  1.6G  83% /\nudev                               63G     0   63G   0% /dev/net";
+
+    expect(parseDfString(dfString)).toEqual([
+      {
+        available: 1.6,
+        filesystem: "/dev/mapper/pve-vm--552--disk--0",
+        mountedOn: "/",
+        size: 9.8,
+        usePercent: "83%",
+        used: 7.8,
+        reserved: 0.4,
+      },
+      {
+        available: 63,
+        filesystem: "udev",
+        mountedOn: "/dev/net",
+        size: 63,
+        usePercent: "0%",
+        used: 0,
+        reserved: 0,
+      },
+    ]);
+  });
 });
+
+
