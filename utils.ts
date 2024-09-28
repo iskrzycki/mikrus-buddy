@@ -101,7 +101,7 @@ export const parseMemoryStats = (memoryString: string): MemoryStats | null => {
   const swapMatch = swapRegex.exec(memoryString);
 
   if (!memoryMatch || !swapMatch) {
-    return null;
+    throw new Error("Invalid memory string: " + memoryString);
   }
 
   const memoryStats = {

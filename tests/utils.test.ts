@@ -8,15 +8,26 @@ const serverStats = {
     "18:38:10 up 3 days, 22:14,  0 users,  load average: 0.00, 0.00, 0.00\nsh: 1: echo",
 };
 
-// TODO add more tests (also for the system time)
-test("extractUptime", () => {
-  expect(extractSystemInfo(serverStats.uptime).uptime).toBe("3 days, 22:14");
-
-  expect(
-    extractSystemInfo(
-      "20:28:52 up 9 days, 5 min, 0 users, load average: 0.13, 0.20, 0.13 sh: 1: echo"
-    ).uptime
-  ).toBe("9 days, 5 min");
+describe("extractUptime", () => {
+  test.each([
+    [
+      "3 days, 22:14",
+      "18:38:10 up 3 days, 22:14,  0 users,  load average: 0.00, 0.00, 0.00\nsh: 1: echo",
+    ],
+    [
+      "9 days, 5 min",
+      "20:28:52 up 9 days, 5 min, 0 users, load average: 0.13, 0.20, 0.13 sh: 1: echo",
+    ],
+    [
+      "395 days, 20:15",
+      "14:19:57 up 395 days, 20:15,  0 users,  load average: 0.08, 0.12, 0.09\nsh: 1: echo",
+    ],
+  ])(
+    'should extract uptime "%s" from string "%s"',
+    (expectedUptime: string, inputString: string) => {
+      expect(extractSystemInfo(inputString).uptime).toBe(expectedUptime);
+    }
+  );
 });
 
 test("parseMemoryStats", () => {
