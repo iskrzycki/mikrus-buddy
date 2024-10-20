@@ -1,8 +1,8 @@
-# Mikrus buddy
+# Mikrus Buddy
 
 ## Introduction
 
-Mikrus buddy is an open-source browser extension designed for the [Mikrus](https://mikr.us/) community. This extension leverages the Mikr.us API to display vital information about your Mikrus VPS directly in your browser. [Install from chrome webstore](todo/link/to/extension/page)
+**Mikrus Buddy** is an open-source browser extension designed for the [Mikrus](https://mikr.us/) community. This extension leverages the Mikr.us API to display vital information about your Mikrus VPS directly in your browser. [Install from chrome webstore](todo/link/to/extension/page)
 
 <div style="display: flex; justify-content: space-between;">
    <img src="readme-img/1.png" alt="Screenshot 1" width="45%" />
@@ -27,18 +27,18 @@ Mikrus buddy is an open-source browser extension designed for the [Mikrus](https
 
 ## Usage
 
-Currently, extension is available in the Chrome Web store only. Feel free to install it and rate [here](TODO).
+Currently, the extension is available in the Chrome Web store only. Feel free to install it and rate [here](TODO).
 All, you need to do next is to provide your API key and server ID. Both can be obtained from your [mikr.us admin panel](https://mikr.us/panel/?a=api).
 
 > [!TIP]
-> If you want to use this extension in a different browser, you need to build it by your own. See [development section](#development) for details
+> If you want to use this extension in a different browser, you need to build it by your own. See [Building for different browsers](#building-for-different-browsers) for details
 
 ## Permissions & API key safety
 
 This extension needs just two permissions:
 
-- **storage** - for storing user entered data in the browser (API key, server ID)
-- **https://api.mikr.us host permission** - for making request to the official [mikr.us api](https://api.mikr.us/)
+- **storage** - for storing user-entered data in the browser (API key, server ID)
+- **https://api.mikr.us host permission** - for making request to the official [mikr.us API](https://api.mikr.us/)
 
 ## Roadmap
 
@@ -64,23 +64,35 @@ Look at the [kanban board](https://github.com/users/iskrzycki/projects/1) to see
    npm install
    ```
 
-3. Build the extension:
+3. Running in a dev mode
 
    ```sh
    npm run dev
    ```
 
-4. Load the extension in your browser.
+### Building for different browsers
 
-### Running in Development Mode
-
-To run the extension in development mode with hot-reloading:
-
-1. Start the development server:
+1. Build dist:
 
    ```sh
-   npm run dev
+   # chrome
+   npm run build
+   # firefox
+   npm run build:firefox
    ```
+
+2. Create a zip bundle
+
+   ```sh
+   # chrome
+   npm run zip
+   # firefox
+   npm run zip:firefox
+   ```
+
+3. Next, just load the extension bundle to your browser.
+
+Different browser? Look at [this guide](https://wxt.dev/guide/essentials/target-different-browsers.html) for details.
 
 ## License
 
