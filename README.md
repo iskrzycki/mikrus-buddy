@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**Mikrus Buddy** is an open-source browser extension designed for the [Mikrus](https://mikr.us/) community. This extension leverages the Mikr.us API to display vital information about your Mikrus VPS directly in your browser. [Install from chrome webstore](todo/link/to/extension/page)
+**Mikrus Buddy** is an open-source browser extension designed for the [Mikrus](https://mikr.us/) community. This extension leverages the Mikr.us API to display vital information about your Mikrus VPS directly in your browser. [Install from chrome webstore](https://chromewebstore.google.com/detail/mikrus-addon/aeiddbidchgaginfmhbpoldcecjlfcgi?authuser=0&hl=pl)
 
 <div style="display: flex; justify-content: space-between;">
    <img src="readme-img/1.png" alt="Screenshot 1" width="45%" />
@@ -27,7 +27,7 @@
 
 ## Usage
 
-Currently, the extension is available in the Chrome Web store only. Feel free to install it and rate [here](TODO).
+Currently, the extension is available in the Chrome Web store only. Feel free to install it and rate [here](https://chromewebstore.google.com/detail/mikrus-addon/aeiddbidchgaginfmhbpoldcecjlfcgi?authuser=0&hl=pl).
 All, you need to do next is to provide your API key and server ID. Both can be obtained from your [mikr.us admin panel](https://mikr.us/panel/?a=api).
 
 > [!TIP]
@@ -37,11 +37,11 @@ All, you need to do next is to provide your API key and server ID. Both can be o
 
 This extension needs just two permissions:
 
-- **storage** - for storing user-entered data in the browser (API key, server ID)
-- **https://api.mikr.us host permission** - for making request to the official [mikr.us API](https://api.mikr.us/)
+- **storage** - for storing user-entered data in the browser (`API key`, `server ID`)
+- **host permission** - for making request to the official [mikr.us API](https://api.mikr.us/)
 
 > [!NOTE]
-> Your API key and server id are sensitive information and cannot be shared with other users. Keeping that in mind, I guarantee, that your API key is sent only to the official mikr.us API.
+> Your `API key` and `server ID` are sensitive information and cannot be shared with other users. Keeping that in mind, your data are not being sent anywhere but the official mikr.us API.
 
 ## Roadmap
 
