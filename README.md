@@ -5,22 +5,22 @@
 **Mikrus Buddy** is an open-source browser extension designed for the [Mikrus](https://mikr.us/) community. This extension leverages the Mikr.us API to display vital information about your Mikrus VPS directly in your browser. [Install from chrome webstore](https://chromewebstore.google.com/detail/mikrus-addon/aeiddbidchgaginfmhbpoldcecjlfcgi?authuser=0&hl=pl)
 
 <div style="display: flex; justify-content: space-between;">
-   <img src="readme-img/1.png" alt="Screenshot 1" width="45%" />
-   <img src="readme-img/2.png" alt="Screenshot 2" width="45%" />
+   <img src="readme-img/1.png" alt="Basic server info screenshot" width="45%" />
+   <img src="readme-img/2.png" alt="RAM stats screenshot" width="45%" />
 </div>
 
 ## Features
 
-- **VPS Information**: view detailed information about your VPS
+- **VPS information**: view detailed information about your VPS
   - server id
   - expiration date (both server and storage)
   - RAM and HDD size
   - Mikrus Pro status
   - uptime
   - Detailed RAM and HDD stats
-- **Server Management**:
+- **Server management**:
   - restart your server with a single click
-  - apply "amphetamine" to boost your RAM
+  - apply `amphetamine` to boost your RAM temporarily
 - **i18n**: based on browser language. Supports:
   - Polish
   - English
