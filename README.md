@@ -40,6 +40,9 @@ This extension needs just two permissions:
 - **storage** - for storing user-entered data in the browser (API key, server ID)
 - **https://api.mikr.us host permission** - for making request to the official [mikr.us API](https://api.mikr.us/)
 
+> [!NOTE]
+> Your API key and server id are sensitive information and cannot be shared with other users. Keeping that in mind, I guarantee, that your API key is sent only to the official mikr.us API.
+
 ## Roadmap
 
 Look at the [kanban board](https://github.com/users/iskrzycki/projects/1) to see, what features are planned in the future.

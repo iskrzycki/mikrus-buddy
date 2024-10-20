@@ -64,8 +64,8 @@ describe("parseDfString", () => {
   test("should parse df string with two storages", () => {
     const dfString =
       "Filesystem                                         Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--630--disk--0                    15G   14G  848M  95% /\n/dev/mapper/storage01--vg--srv07-vm--630--disk--0  123G  259M  117G   1% /storage";
-    
-      expect(parseDfString(dfString)).toEqual([
+
+    expect(parseDfString(dfString)).toEqual([
       {
         available: 0.848,
         filesystem: "/dev/mapper/pve-vm--630--disk--0",
