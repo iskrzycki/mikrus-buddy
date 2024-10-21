@@ -80,7 +80,7 @@ export const extractSystemInfo = (inputString: string): any => {
   const timeMatch = inputString.match(timeRegex);
 
   // Regular expression to match everything between the system time and the user counter
-  const uptimeRegex = /\d{2}:\d{2}:\d{2}\s+up\s+(.+?),\s+\d+\s+users/;
+  const uptimeRegex = /\d{2}:\d{2}:\d{2}\s+up\s+(.+?),\s+\d+\s+user/; // `user` in debian, `users` in ubuntu
   const uptimeMatch = inputString.match(uptimeRegex);
 
   if (!timeMatch || !uptimeMatch) {

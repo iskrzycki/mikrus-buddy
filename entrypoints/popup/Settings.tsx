@@ -68,7 +68,7 @@ function Settings() {
     setIsValidKey(isSuccess);
     if (isSuccess) {
       setActiveTab("info");
-          } else {
+    } else {
       setError(data.error);
       console.log("error", data);
       // TODO: consider https://mantine.dev/x/notifications/
@@ -124,8 +124,8 @@ function Settings() {
           </Text>
           <Text>
             {i18n.t("settings.info.version")}:{" "}
-{browser.runtime.getManifest().version}
-</Text>
+            {browser.runtime.getManifest().version}
+          </Text>
           {/* TODO consider linking repo here */}
         </Grid.Col>
         <Grid.Col span={4} offset={3}>
